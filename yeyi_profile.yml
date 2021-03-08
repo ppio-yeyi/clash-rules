@@ -1,0 +1,132 @@
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: Rule
+log-level: info
+external-controller: :9090
+proxies:
+  - name: hostkvm_vmess
+    type: vmess
+    server: 45.251.240.118
+    port: "47659"
+    uuid: 80041a00-f02f-11ea-9326-00163e19c319
+    alterId: "101"
+    cipher: aes-128-gcm
+    network: ws
+    ws-path: /VifvXAt9/
+    ws-headers:
+      Host: download1.52tv.top
+  - name: office_socks_13
+    type: socks5
+    server: 192.168.3.13
+    port: "7891"
+  - name: office_socks_14
+    type: socks5
+    server: 192.168.3.14
+    port: "7891"
+proxy-groups:
+  - name: URLTEST
+    proxies:
+      - hostkvm_vmess
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: "60"
+  - name: PROXY
+    proxies:
+      - hostkvm_vmess
+    type: select
+rule-providers:
+  twitch:
+    type: http
+    behavior: domain
+    url: "https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/Twitch.yaml"
+    path: ./ruleset/twitch.yaml
+    interval: 86400
+  gfw:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt"
+    path: ./ruleset/gfw.yaml
+    interval: 86400
+  greatfire:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/greatfire.txt"
+    path: ./ruleset/greatfire.yaml
+    interval: 86400
+  tld-not-cn:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt"
+    path: ./ruleset/tld-not-cn.yaml
+    interval: 86400
+rules:
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,0.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,169.254.0.0/16,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.0.0.0/24,DIRECT,no-resolve
+  - IP-CIDR,192.0.2.0/24,DIRECT,no-resolve
+  - IP-CIDR,192.88.99.0/24,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - IP-CIDR,198.18.0.0/15,DIRECT,no-resolve
+  - IP-CIDR,198.51.100.0/24,DIRECT,no-resolve
+  - IP-CIDR,203.0.113.0/24,DIRECT,no-resolve
+  - IP-CIDR,224.0.0.0/4,DIRECT,no-resolve
+  - IP-CIDR,240.0.0.0/4,DIRECT,no-resolve
+  - IP-CIDR,255.255.255.255/32,DIRECT,no-resolve
+  - IP-CIDR6,::1/128,DIRECT,no-resolve
+  - IP-CIDR6,fc00::/7,DIRECT,no-resolve
+  - IP-CIDR6,fe80::/10,DIRECT,no-resolve
+  - IP-CIDR6,fd00::/8,DIRECT,no-resolve
+  - DOMAIN-SUFFIX,github,PROXY  
+  - DOMAIN-SUFFIX,githubusercontent.com,PROXY  
+  - DOMAIN-SUFFIX,jsdelivr.net,PROXY  
+  - RULE-SET,twitch,PROXY
+  - RULE-SET,gfw,PROXY
+  - RULE-SET,greatfire,PROXY
+  - RULE-SET,tld-not-cn,PROXY
+  - DOMAIN-SUFFIX,us,PROXY  
+  - DOMAIN-SUFFIX,hk,PROXY  
+  - DOMAIN-SUFFIX,jp,PROXY  
+  - DOMAIN-SUFFIX,tw,PROXY  
+  - GEOIP,CN,DIRECT
+  - GEOIP,AE,PROXY
+  - GEOIP,AU,PROXY
+  - GEOIP,BR,PROXY
+  - GEOIP,CA,PROXY
+  - GEOIP,DE,PROXY
+  - GEOIP,DK,PROXY
+  - GEOIP,ES,PROXY
+  - GEOIP,FI,PROXY
+  - GEOIP,FR,PROXY
+  - GEOIP,GB,PROXY
+  - GEOIP,GR,PROXY
+  - GEOIP,HK,PROXY
+  - GEOIP,ID,PROXY
+  - GEOIP,IL,PROXY
+  - GEOIP,IN,PROXY
+  - GEOIP,IQ,PROXY
+  - GEOIP,IR,PROXY
+  - GEOIP,IT,PROXY
+  - GEOIP,JP,PROXY
+  - GEOIP,KR,PROXY
+  - GEOIP,MO,PROXY
+  - GEOIP,MY,PROXY
+  - GEOIP,NL,PROXY
+  - GEOIP,NO,PROXY
+  - GEOIP,NZ,PROXY
+  - GEOIP,PH,PROXY
+  - GEOIP,RU,PROXY
+  - GEOIP,SA,PROXY
+  - GEOIP,SG,PROXY
+  - GEOIP,TH,PROXY
+  - GEOIP,TR,PROXY
+  - GEOIP,TW,PROXY
+  - GEOIP,US,PROXY
+  - GEOIP,VN,PROXY
+  - MATCH,DIRECT
+
